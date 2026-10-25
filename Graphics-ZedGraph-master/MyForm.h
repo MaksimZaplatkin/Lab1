@@ -456,7 +456,7 @@ namespace Graph {
 	private:
 		double RHS(double x, double u) {
 			if (currentTask == 0) {
-				return 2.0;
+				return 2.0*u;
 			}
 			else {
 				double x2 = x * x;
@@ -468,21 +468,17 @@ namespace Graph {
 		}
 
 		double Exact_Test(double x, double U0, double X0) {
-			return U0 + 2.0 * (x - X0);
+			return U0 *Math::Exp(2.0*(x-X0));
 		}
 
 		// ---- РК4 по методичке ----
-		// k1 = f(x, v)
-		// k2 = f(x + h/4, v + h/4 * k1)
-		// k3 = f(x + h/2, v + h/2 * k2)
-		// k4 = f(x + h,   v + h*(k1 - 2k2 + 2k3))
-		// v_{n+1} = v + h/6 * (k1 + 4*k3 + k4)
+		
 		double RK4_Step(double x, double u, double h) {
 			double k1 = RHS(x, u);
-			double k2 = RHS(x + h / 4.0, u + h / 4.0 * k1);
+			double k2 = RHS(x + h / 2.0, u + h / 2.0 * k1);
 			double k3 = RHS(x + h / 2.0, u + h / 2.0 * k2);
-			double k4 = RHS(x + h, u + h * (k1 - 2.0 * k2 + 2.0 * k3));
-			return u + h / 6.0 * (k1 + 4.0 * k3 + k4);
+			double k4 = RHS(x + h, u + h * (k3));
+			return u + h / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
 		}
 
 		// ---- РК4 для системы (по той же схеме методички) ----
@@ -494,9 +490,9 @@ namespace Graph {
 			double k1u = v;
 			double k1v = -(A * v * Math::Abs(v) + B * v + C * u);
 
-			// k2: x+h/4, u+h/4*k1u, v+h/4*k1v
-			double u2 = u + h / 4.0 * k1u;
-			double v2 = v + h / 4.0 * k1v;
+			// k2: x+h/2, u+h/2*k1u, v+h/2*k1v
+			double u2 = u + h / 2.0 * k1u;
+			double v2 = v + h / 2.0 * k1v;
 			double k2u = v2;
 			double k2v = -(A * v2 * Math::Abs(v2) + B * v2 + C * u2);
 
@@ -506,14 +502,14 @@ namespace Graph {
 			double k3u = v3;
 			double k3v = -(A * v3 * Math::Abs(v3) + B * v3 + C * u3);
 
-			// k4: x+h, u+h*(k1u - 2k2u + 2k3u), v+h*(k1v - 2k2v + 2k3v)
-			double u4 = u + h * (k1u - 2.0 * k2u + 2.0 * k3u);
-			double v4 = v + h * (k1v - 2.0 * k2v + 2.0 * k3v);
+			// k4: x+h, u+h*k3u, v+h*k3v
+			double u4 = u + h * k3u;
+			double v4 = v + h * k3v;
 			double k4u = v4;
 			double k4v = -(A * v4 * Math::Abs(v4) + B * v4 + C * u4);
 
-			u_new = u + h / 6.0 * (k1u + 4.0 * k3u + k4u);
-			v_new = v + h / 6.0 * (k1v + 4.0 * k3v + k4v);
+			u_new = u + h / 6.0 * (k1u + 2.0*k2u + 2.0 * k3u + k4u);
+			v_new = v + h / 6.0 * (k1v + 2.0*k2v + 2.0 * k3v + k4v);
 		}
 
 		double ParseDouble(String^ s) {
@@ -550,8 +546,8 @@ namespace Graph {
 
 				double diffU = u1 - u2b;
 				double diffV = v1 - v2b;
-				// ОЛП = S * 2^p = (|diff| / (2^p - 1)) * 2^p = |diff| * 16 / 15
-				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) * 16.0 / 15.0;
+				// ОЛП = S * 2^p = (|diff| / (2^p - 1)) * 2^p = |diff| / 15
+				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) / 15.0;
 
 				double x_new = x + h;
 
@@ -586,7 +582,7 @@ namespace Graph {
 
 				double diffU = u1 - u2b;
 				double diffV = v1 - v2b;
-				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) * 16.0 / 15.0;
+				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) / 15.0;
 
 				if (Math::Abs(u1) > 1e15 || Math::Abs(v1) > 1e15) {
 					MessageBox::Show("Решение уходит в бесконечность.");
@@ -704,7 +700,7 @@ namespace Graph {
 					double v_half = RK4_Step(x, u, h_cur / 2.0);
 					double v2 = RK4_Step(x + h_cur / 2.0, v_half, h_cur / 2.0);
 					double diff = v - v2;
-					double olp = Math::Abs(diff) * 16.0 / 15.0;
+					double olp = Math::Abs(diff) / 15.0;
 
 					double h_next = x + h_cur;
 
@@ -751,7 +747,10 @@ namespace Graph {
 				double h = H0;
 				double x = X0, u = U0;
 				int i = 0;
-				int C1 = 0, C2 = 0;
+
+				// Локальные счетчики для ТЕКУЩЕЙ точки (живут, пока точка не принята)
+				int c1_step = 0;
+				int c2_step = 0;
 
 				exactList->Add(x, Exact_Test(x, U0, X0));
 				approxList->Add(x, u);
@@ -765,27 +764,30 @@ namespace Graph {
 					double v_half = RK4_Step(x, u, h / 2.0);
 					double v2 = RK4_Step(x + h / 2.0, v_half, h / 2.0);
 					double diff = v - v2;
-					double olp = Math::Abs(diff) * 16.0 / 15.0;
+					double olp = Math::Abs(diff) / 15.0;
 
 					if (Math::Abs(v) > 1e15) { MessageBox::Show("Решение уходит в бесконечность."); break; }
-					int c1_step = 0, c2_step = 0;
 
+					// Если ОЛП > Eps, ДРОБИМ шаг и пересчитываем точку
 					if (olp > Eps) {
 						h = h / 2.0;
-						C1++;
-						c1_step = 1;
-						continue;
+						totalDiv++;
+						c1_step++;   // Накапливаем деления для текущей точки
+						continue;    // ВАЖНО: возвращаемся в начало цикла
 					}
 
+					// Точка принята. Считаем новый x
 					double x_new = x + h;
 					if (x_new <= x) { MessageBox::Show("Шаг слишком мал для double."); break; }
 
+					// Если ОЛП < Eps/32, УДВАИВАЕМ шаг для следующей итерации
 					if (olp < Eps / 32.0 && (x_new + 2.0 * h) <= Xend + 1e-12) {
 						h = h * 2.0;
-						C2++;
-						c2_step = 1;
+						totalDouble++;
+						c2_step++;   // Фиксируем удвоение
 					}
 
+					// Запись в таблицу принятой точки
 					dataGridView1->Rows->Add();
 					int r = dataGridView1->Rows->Count - 1;
 					dataGridView1->Rows[r]->Cells[0]->Value = i + 1;
@@ -795,6 +797,8 @@ namespace Graph {
 					dataGridView1->Rows[r]->Cells[4]->Value = Math::Round(diff, 10);
 					dataGridView1->Rows[r]->Cells[5]->Value = Math::Round(olp, 10);
 					dataGridView1->Rows[r]->Cells[6]->Value = Math::Round(x_new - x, 6);
+
+					// Выводим накопленные счётчики
 					dataGridView1->Rows[r]->Cells[7]->Value = c1_step;
 					dataGridView1->Rows[r]->Cells[8]->Value = c2_step;
 
@@ -823,9 +827,12 @@ namespace Graph {
 					x_last = x;
 					n = i + 1;
 					i++;
+
+					// СБРАСЫВАЕМ счётчики для СЛЕДУЮЩЕЙ точки
+					c1_step = 0;
+					c2_step = 0;
 				}
-				totalDiv = C1;
-				totalDouble = C2;
+
 			}
 
 			// ---- Графики ----
