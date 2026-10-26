@@ -63,7 +63,6 @@ namespace Graph {
 
 		void DrawGraphs(array<double>^ xs, array<double>^ us, array<double>^ vs)
 		{
-			// --- 1. u(x) ---
 			GraphPane^ p1 = zg_u->GraphPane;
 			p1->CurveList->Clear();
 			PointPairList^ listU = gcnew PointPairList();
@@ -77,7 +76,6 @@ namespace Graph {
 			zg_u->AxisChange();
 			zg_u->Invalidate();
 
-			// --- 2. u'(x) ---
 			GraphPane^ p2 = zg_v->GraphPane;
 			p2->CurveList->Clear();
 			PointPairList^ listV = gcnew PointPairList();
@@ -91,7 +89,6 @@ namespace Graph {
 			zg_v->AxisChange();
 			zg_v->Invalidate();
 
-			// --- 3. Фазовый портрет ---
 			GraphPane^ p3 = zg_phase->GraphPane;
 			p3->CurveList->Clear();
 			PointPairList^ listPhase = gcnew PointPairList();
@@ -224,27 +221,23 @@ namespace Graph {
 			   (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridView1))->BeginInit();
 			   this->SuspendLayout();
 
-			   // zedGraphControl1
 			   this->zedGraphControl1->Location = System::Drawing::Point(12, 12);
 			   this->zedGraphControl1->Name = L"zedGraphControl1";
 			   this->zedGraphControl1->Size = System::Drawing::Size(560, 400);
 			   this->zedGraphControl1->TabIndex = 0;
 
-			   // button1
 			   this->button1->Location = System::Drawing::Point(881, 454);
 			   this->button1->Size = System::Drawing::Size(120, 30);
 			   this->button1->TabIndex = 16;
 			   this->button1->Text = L"Решить";
 			   this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 
-			   // button2
 			   this->button2->Location = System::Drawing::Point(1038, 454);
 			   this->button2->Size = System::Drawing::Size(120, 30);
 			   this->button2->TabIndex = 17;
 			   this->button2->Text = L"Очистить";
 			   this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 
-			   // dataGridView1
 			   this->dataGridView1->AllowUserToAddRows = false;
 			   this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			   this->dataGridView1->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(11) {
@@ -270,90 +263,86 @@ namespace Graph {
 			   this->col_ui->HeaderText = L"ui";         this->col_ui->Width = 80;
 			   this->col_err->HeaderText = L"|ui-vi|";   this->col_err->Width = 80;
 
-			   // lbl_X0
 			   this->lbl_X0->Location = System::Drawing::Point(12, 454);
 			   this->lbl_X0->Size = System::Drawing::Size(100, 23);
 			   this->lbl_X0->Text = L"X0";
-			   // tb_X0
+
 			   this->tb_X0->Location = System::Drawing::Point(118, 454);
 			   this->tb_X0->Size = System::Drawing::Size(60, 20);
 			   this->tb_X0->Text = L"0";
-			   // lbl_Xend
+
 			   this->lbl_Xend->Location = System::Drawing::Point(204, 451);
 			   this->lbl_Xend->Size = System::Drawing::Size(100, 23);
 			   this->lbl_Xend->Text = L"X_end";
-			   // tb_Xend
+
 			   this->tb_Xend->Location = System::Drawing::Point(310, 451);
 			   this->tb_Xend->Size = System::Drawing::Size(60, 20);
 			   this->tb_Xend->Text = L"1";
-			   // lbl_U0
+
 			   this->lbl_U0->Location = System::Drawing::Point(401, 448);
 			   this->lbl_U0->Size = System::Drawing::Size(100, 23);
 			   this->lbl_U0->Text = L"U0";
-			   // tb_U0
+
 			   this->tb_U0->Location = System::Drawing::Point(520, 454);
 			   this->tb_U0->Size = System::Drawing::Size(60, 20);
 			   this->tb_U0->Text = L"0";
-			   // lbl_H0
+
 			   this->lbl_H0->Location = System::Drawing::Point(12, 491);
 			   this->lbl_H0->Size = System::Drawing::Size(100, 23);
 			   this->lbl_H0->Text = L"H0";
-			   // tb_H0
+
 			   this->tb_H0->Location = System::Drawing::Point(118, 488);
 			   this->tb_H0->Size = System::Drawing::Size(60, 20);
 			   this->tb_H0->Text = L"0,1";
-			   // lbl_Eps
+
 			   this->lbl_Eps->Location = System::Drawing::Point(204, 488);
 			   this->lbl_Eps->Size = System::Drawing::Size(100, 23);
 			   this->lbl_Eps->Text = L"Eps";
-			   // tb_Eps
+
 			   this->tb_Eps->Location = System::Drawing::Point(310, 482);
 			   this->tb_Eps->Size = System::Drawing::Size(70, 20);
 			   this->tb_Eps->Text = L"0,0001";
-			   // lbl_Nmax
+
 			   this->lbl_Nmax->Location = System::Drawing::Point(401, 485);
 			   this->lbl_Nmax->Size = System::Drawing::Size(100, 23);
 			   this->lbl_Nmax->Text = L"Nmax";
-			   // tb_Nmax
+
 			   this->tb_Nmax->Location = System::Drawing::Point(520, 485);
 			   this->tb_Nmax->Size = System::Drawing::Size(70, 20);
 			   this->tb_Nmax->Text = L"100000";
 
-			   // lbl_V0
 			   this->lbl_V0->Location = System::Drawing::Point(600, 454);
 			   this->lbl_V0->Size = System::Drawing::Size(30, 23);
 			   this->lbl_V0->Text = L"V0";
-			   // tb_V0
+
 			   this->tb_V0->Location = System::Drawing::Point(635, 454);
 			   this->tb_V0->Size = System::Drawing::Size(45, 20);
 			   this->tb_V0->Text = L"1";
 
-			   // lbl_A
 			   this->lbl_A->Location = System::Drawing::Point(12, 520);
 			   this->lbl_A->Size = System::Drawing::Size(30, 23);
 			   this->lbl_A->Text = L"A";
-			   // tb_A
+
 			   this->tb_A->Location = System::Drawing::Point(45, 520);
 			   this->tb_A->Size = System::Drawing::Size(60, 20);
 			   this->tb_A->Text = L"0,1";
-			   // lbl_B
+
 			   this->lbl_B->Location = System::Drawing::Point(130, 520);
 			   this->lbl_B->Size = System::Drawing::Size(30, 23);
 			   this->lbl_B->Text = L"B";
-			   // tb_B
+
 			   this->tb_B->Location = System::Drawing::Point(165, 520);
 			   this->tb_B->Size = System::Drawing::Size(60, 20);
 			   this->tb_B->Text = L"0,5";
-			   // lbl_C
+
 			   this->lbl_C->Location = System::Drawing::Point(250, 520);
 			   this->lbl_C->Size = System::Drawing::Size(30, 23);
 			   this->lbl_C->Text = L"C";
-			   // tb_C
+
 			   this->tb_C->Location = System::Drawing::Point(285, 520);
 			   this->tb_C->Size = System::Drawing::Size(60, 20);
 			   this->tb_C->Text = L"1,0";
 
-			   // cb_Task
 			   this->cb_Task->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
 			   this->cb_Task->Items->AddRange(gcnew cli::array< System::Object^  >(3) {
 				   L"Тестовая задача", L"Задача №1", L"Задача №2"
@@ -363,19 +352,17 @@ namespace Graph {
 			   this->cb_Task->TabIndex = 20;
 			   this->cb_Task->SelectedIndexChanged += gcnew System::EventHandler(this, &MyForm::cb_Task_SelectedIndexChanged);
 
-			   // rb_Fixed
 			   this->rb_Fixed->Checked = true;
 			   this->rb_Fixed->Location = System::Drawing::Point(12, 430);
 			   this->rb_Fixed->Size = System::Drawing::Size(150, 24);
 			   this->rb_Fixed->TabIndex = 14;
 			   this->rb_Fixed->Text = L"Постоянный шаг";
-			   // rb_Adaptive
+
 			   this->rb_Adaptive->Location = System::Drawing::Point(170, 430);
 			   this->rb_Adaptive->Size = System::Drawing::Size(150, 24);
 			   this->rb_Adaptive->TabIndex = 15;
 			   this->rb_Adaptive->Text = L"Адаптивный шаг";
 
-			   // tb_Stats
 			   this->tb_Stats->Font = (gcnew System::Drawing::Font(L"Consolas", 9));
 			   this->tb_Stats->Location = System::Drawing::Point(12, 558);
 			   this->tb_Stats->Multiline = true;
@@ -383,13 +370,12 @@ namespace Graph {
 			   this->tb_Stats->ScrollBars = System::Windows::Forms::ScrollBars::Vertical;
 			   this->tb_Stats->Size = System::Drawing::Size(1170, 150);
 			   this->tb_Stats->TabIndex = 19;
-			   // lbl_Stats
+
 			   this->lbl_Stats->Location = System::Drawing::Point(12, 430);
 			   this->lbl_Stats->Size = System::Drawing::Size(100, 23);
 			   this->lbl_Stats->TabIndex = 18;
 			   this->lbl_Stats->Text = L"Статистика:";
 
-			   // MyForm
 			   this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			   this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			   this->ClientSize = System::Drawing::Size(1200, 720);
@@ -451,12 +437,10 @@ namespace Graph {
 		zedGraphControl1->Invalidate();
 	}
 
-		   // ================== ЧИСЛЕННЫЕ МЕТОДЫ ==================
-
 	private:
 		double RHS(double x, double u) {
 			if (currentTask == 0) {
-				return 2.0*u;
+				return 2.0 * u;
 			}
 			else {
 				double x2 = x * x;
@@ -468,11 +452,9 @@ namespace Graph {
 		}
 
 		double Exact_Test(double x, double U0, double X0) {
-			return U0 *Math::Exp(2.0*(x-X0));
+			return U0 * Math::Exp(2.0 * (x - X0));
 		}
 
-		// ---- РК4 по методичке ----
-		
 		double RK4_Step(double x, double u, double h) {
 			double k1 = RHS(x, u);
 			double k2 = RHS(x + h / 2.0, u + h / 2.0 * k1);
@@ -481,43 +463,36 @@ namespace Graph {
 			return u + h / 6.0 * (k1 + 2.0 * k2 + 2.0 * k3 + k4);
 		}
 
-		// ---- РК4 для системы (по той же схеме методички) ----
 		void RK4_Step_System(double x, double u, double v, double h,
 			double A, double B, double C,
 			double% u_new, double% v_new)
 		{
-			// k1
 			double k1u = v;
 			double k1v = -(A * v * Math::Abs(v) + B * v + C * u);
 
-			// k2: x+h/2, u+h/2*k1u, v+h/2*k1v
 			double u2 = u + h / 2.0 * k1u;
 			double v2 = v + h / 2.0 * k1v;
 			double k2u = v2;
 			double k2v = -(A * v2 * Math::Abs(v2) + B * v2 + C * u2);
 
-			// k3: x+h/2, u+h/2*k2u, v+h/2*k2v
 			double u3 = u + h / 2.0 * k2u;
 			double v3 = v + h / 2.0 * k2v;
 			double k3u = v3;
 			double k3v = -(A * v3 * Math::Abs(v3) + B * v3 + C * u3);
 
-			// k4: x+h, u+h*k3u, v+h*k3v
 			double u4 = u + h * k3u;
 			double v4 = v + h * k3v;
 			double k4u = v4;
 			double k4v = -(A * v4 * Math::Abs(v4) + B * v4 + C * u4);
 
-			u_new = u + h / 6.0 * (k1u + 2.0*k2u + 2.0 * k3u + k4u);
-			v_new = v + h / 6.0 * (k1v + 2.0*k2v + 2.0 * k3v + k4v);
+			u_new = u + h / 6.0 * (k1u + 2.0 * k2u + 2.0 * k3u + k4u);
+			v_new = v + h / 6.0 * (k1v + 2.0 * k2v + 2.0 * k3v + k4v);
 		}
 
 		double ParseDouble(String^ s) {
 			s = s->Trim()->Replace(',', '.');
 			return Convert::ToDouble(s, System::Globalization::CultureInfo::InvariantCulture);
 		}
-
-		// ================== РЕШЕНИЕ ЗАДАЧИ №2 ==================
 
 	private: void SolveTask2(double X0, double Xend, double U0, double V0,
 		double A, double B, double C,
@@ -529,7 +504,7 @@ namespace Graph {
 
 		double x = X0, u = U0, v = V0;
 		int i = 0;
-		int C1 = 0, C2 = 0;
+		int totalDiv = 0, totalDouble = 0;
 
 		xs->Add(x); us->Add(u); vs->Add(v);
 
@@ -546,7 +521,6 @@ namespace Graph {
 
 				double diffU = u1 - u2b;
 				double diffV = v1 - v2b;
-				// ОЛП = S * 2^p = (|diff| / (2^p - 1)) * 2^p = |diff| / 15
 				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) / 15.0;
 
 				double x_new = x + h;
@@ -570,33 +544,54 @@ namespace Graph {
 		}
 		else {
 			double h = H0;
+			double h_prev_row = H0;
+
 			while (x < Xend - 1e-12) {
 				if (i >= Nmax) { MessageBox::Show("Достигнут Nmax."); break; }
 				if (h < 1e-12) { MessageBox::Show("Шаг стал слишком мал."); break; }
 				if (x + h > Xend) h = Xend - x;
 
 				double u1, v1, u2, v2, u2b, v2b;
-				RK4_Step_System(x, u, v, h, A, B, C, u1, v1);
-				RK4_Step_System(x, u, v, h / 2.0, A, B, C, u2, v2);
-				RK4_Step_System(x + h / 2.0, u2, v2, h / 2.0, A, B, C, u2b, v2b);
+				double diffU, diffV, olp;
 
-				double diffU = u1 - u2b;
-				double diffV = v1 - v2b;
-				double olp = Math::Sqrt(diffU * diffU + diffV * diffV) / 15.0;
+				while (true) {
+					RK4_Step_System(x, u, v, h, A, B, C, u1, v1);
+					RK4_Step_System(x, u, v, h / 2.0, A, B, C, u2, v2);
+					RK4_Step_System(x + h / 2.0, u2, v2, h / 2.0, A, B, C, u2b, v2b);
 
-				if (Math::Abs(u1) > 1e15 || Math::Abs(v1) > 1e15) {
-					MessageBox::Show("Решение уходит в бесконечность.");
-					break;
+					diffU = u1 - u2b;
+					diffV = v1 - v2b;
+					olp = Math::Sqrt(diffU * diffU + diffV * diffV) / 15.0;
+
+					if (Math::Abs(u1) > 1e15 || Math::Abs(v1) > 1e15) {
+						MessageBox::Show("Решение уходит в бесконечность.");
+						goto end_task2;
+					}
+
+					if (olp > Eps) {
+						h = h / 2.0;
+					}
+					else {
+						break;
+					}
 				}
-
-				int c1_step = 0, c2_step = 0;
-				if (olp > Eps) { h = h / 2.0; C1++; c1_step = 1; continue; }
 
 				double x_new = x + h;
 				if (x_new <= x) { MessageBox::Show("Шаг слишком мал."); break; }
 
-				if (olp < Eps / 32.0 && (x_new + 2.0 * h) <= Xend + 1e-12) {
-					h = h * 2.0; C2++; c2_step = 1;
+				double current_h = x_new - x;
+
+				int final_C1 = 0;
+				int final_C2 = 0;
+
+				if (current_h < h_prev_row * 0.99) {
+					double ratio = h_prev_row / current_h;
+					while (ratio >= 1.9) { ratio /= 2.0; final_C1++; }
+					totalDiv += final_C1; // Увеличиваем статистику
+				}
+				else if (current_h > h_prev_row * 1.01) {
+					final_C2 = 1;
+					totalDouble += 1;     // Увеличиваем статистику
 				}
 
 				dataGridView1->Rows->Add();
@@ -607,28 +602,33 @@ namespace Graph {
 				dataGridView1->Rows[r]->Cells[3]->Value = Math::Round(u2b, 8);
 				dataGridView1->Rows[r]->Cells[4]->Value = Math::Round(diffU, 10);
 				dataGridView1->Rows[r]->Cells[5]->Value = Math::Round(olp, 10);
-				dataGridView1->Rows[r]->Cells[6]->Value = Math::Round(x_new - x, 6);
-				dataGridView1->Rows[r]->Cells[7]->Value = c1_step;
-				dataGridView1->Rows[r]->Cells[8]->Value = c2_step;
+				dataGridView1->Rows[r]->Cells[6]->Value = Math::Round(current_h, 6);
+				dataGridView1->Rows[r]->Cells[7]->Value = final_C1;
+				dataGridView1->Rows[r]->Cells[8]->Value = final_C2;
+
+				h_prev_row = current_h;
+
+				if (olp < Eps / 32.0 && (x_new + 2.0 * h) <= Xend + 1e-12) {
+					h = h * 2.0;
+				}
 
 				u = u1; v = v1; x = x_new;
 				xs->Add(x); us->Add(u); vs->Add(v);
 				i++;
 			}
+		end_task2:;
 		}
 
 		System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
 		sb->AppendLine(String::Format("n = {0}", i));
 		sb->AppendLine(String::Format("X_end - x_n = {0:E4}", Xend - x));
-		sb->AppendLine(String::Format("Общее число удвоений шага: {0}", C2));
-		sb->AppendLine(String::Format("Общее число делений шага:   {0}", C1));
+		sb->AppendLine(String::Format("Общее число удвоений шага: {0}", totalDouble));
+		sb->AppendLine(String::Format("Общее число делений шага:   {0}", totalDiv));
 		tb_Stats->Text = sb->ToString();
 
 		FormTask2^ w = gcnew FormTask2(xs->ToArray(), us->ToArray(), vs->ToArray());
 		w->Show();
 	}
-
-		   // ================== РЕШЕНИЕ (тест + задача 1) ==================
 
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		try {
@@ -639,7 +639,6 @@ namespace Graph {
 			double Eps = ParseDouble(tb_Eps->Text);
 			int Nmax = Convert::ToInt32(tb_Nmax->Text);
 
-			// ---- Проверки входных данных ----
 			if (Xend <= X0) {
 				MessageBox::Show("Ошибка: X_end должен быть больше X0.");
 				return;
@@ -656,7 +655,6 @@ namespace Graph {
 			currentTask = cb_Task->SelectedIndex;
 			bool isTest = (currentTask == 0);
 
-			// ---- Задача №2 — отдельная ветка ----
 			if (currentTask == 2) {
 				double V0 = ParseDouble(tb_V0->Text);
 				double A = ParseDouble(tb_A->Text);
@@ -682,7 +680,6 @@ namespace Graph {
 			double minH = 1e300, minH_x = X0;
 			double maxErr = 0.0, maxErr_x = X0;
 
-			// ---- Постоянный шаг ----
 			if (rb_Fixed->Checked) {
 				double h = H0;
 				double x = X0, u = U0;
@@ -742,15 +739,11 @@ namespace Graph {
 					i++;
 				}
 			}
-			// ---- Адаптивный шаг ----
 			else {
 				double h = H0;
 				double x = X0, u = U0;
 				int i = 0;
-
-				// Локальные счетчики для ТЕКУЩЕЙ точки (живут, пока точка не принята)
-				int c1_step = 0;
-				int c2_step = 0;
+				double h_prev_row = H0;
 
 				exactList->Add(x, Exact_Test(x, U0, X0));
 				approxList->Add(x, u);
@@ -760,34 +753,43 @@ namespace Graph {
 					if (h < 1e-12) { MessageBox::Show("Шаг стал слишком мал."); break; }
 					if (x + h > Xend) h = Xend - x;
 
-					double v = RK4_Step(x, u, h);
-					double v_half = RK4_Step(x, u, h / 2.0);
-					double v2 = RK4_Step(x + h / 2.0, v_half, h / 2.0);
-					double diff = v - v2;
-					double olp = Math::Abs(diff) / 15.0;
+					double v, v_half, v2, diff, olp;
 
-					if (Math::Abs(v) > 1e15) { MessageBox::Show("Решение уходит в бесконечность."); break; }
+					while (true) {
+						v = RK4_Step(x, u, h);
+						v_half = RK4_Step(x, u, h / 2.0);
+						v2 = RK4_Step(x + h / 2.0, v_half, h / 2.0);
+						diff = v - v2;
+						olp = Math::Abs(diff) / 15.0;
 
-					// Если ОЛП > Eps, ДРОБИМ шаг и пересчитываем точку
-					if (olp > Eps) {
-						h = h / 2.0;
-						totalDiv++;
-						c1_step++;   // Накапливаем деления для текущей точки
-						continue;    // ВАЖНО: возвращаемся в начало цикла
+						if (Math::Abs(v) > 1e15) { MessageBox::Show("Решение уходит в бесконечность."); goto end_task1; }
+
+						if (olp > Eps) {
+							h = h / 2.0;
+						}
+						else {
+							break;
+						}
 					}
 
-					// Точка принята. Считаем новый x
 					double x_new = x + h;
 					if (x_new <= x) { MessageBox::Show("Шаг слишком мал для double."); break; }
 
-					// Если ОЛП < Eps/32, УДВАИВАЕМ шаг для следующей итерации
-					if (olp < Eps / 32.0 && (x_new + 2.0 * h) <= Xend + 1e-12) {
-						h = h * 2.0;
-						totalDouble++;
-						c2_step++;   // Фиксируем удвоение
+					double current_h = x_new - x;
+
+					int final_C1 = 0;
+					int final_C2 = 0;
+
+					if (current_h < h_prev_row * 0.99) {
+						double ratio = h_prev_row / current_h;
+						while (ratio >= 1.9) { ratio /= 2.0; final_C1++; }
+						totalDiv += final_C1; // Увеличиваем статистику
+					}
+					else if (current_h > h_prev_row * 1.01) {
+						final_C2 = 1;
+						totalDouble += 1;     // Увеличиваем статистику
 					}
 
-					// Запись в таблицу принятой точки
 					dataGridView1->Rows->Add();
 					int r = dataGridView1->Rows->Count - 1;
 					dataGridView1->Rows[r]->Cells[0]->Value = i + 1;
@@ -796,16 +798,19 @@ namespace Graph {
 					dataGridView1->Rows[r]->Cells[3]->Value = Math::Round(v2, 8);
 					dataGridView1->Rows[r]->Cells[4]->Value = Math::Round(diff, 10);
 					dataGridView1->Rows[r]->Cells[5]->Value = Math::Round(olp, 10);
-					dataGridView1->Rows[r]->Cells[6]->Value = Math::Round(x_new - x, 6);
+					dataGridView1->Rows[r]->Cells[6]->Value = Math::Round(current_h, 6);
+					dataGridView1->Rows[r]->Cells[7]->Value = final_C1;
+					dataGridView1->Rows[r]->Cells[8]->Value = final_C2;
 
-					// Выводим накопленные счётчики
-					dataGridView1->Rows[r]->Cells[7]->Value = c1_step;
-					dataGridView1->Rows[r]->Cells[8]->Value = c2_step;
+					h_prev_row = current_h;
+
+					if (olp < Eps / 32.0 && (x_new + 2.0 * h) <= Xend + 1e-12) {
+						h = h * 2.0;
+					}
 
 					if (olp > maxOLP) { maxOLP = olp; maxOLP_x = x_new; }
-					double h_used = x_new - x;
-					if (h_used > maxH) { maxH = h_used; maxH_x = x; }
-					if (h_used < minH) { minH = h_used; minH_x = x; }
+					if (current_h > maxH) { maxH = current_h; maxH_x = x; }
+					if (current_h < minH) { minH = current_h; minH_x = x; }
 
 					if (isTest) {
 						double ue = Exact_Test(x_new, U0, X0);
@@ -827,15 +832,10 @@ namespace Graph {
 					x_last = x;
 					n = i + 1;
 					i++;
-
-					// СБРАСЫВАЕМ счётчики для СЛЕДУЮЩЕЙ точки
-					c1_step = 0;
-					c2_step = 0;
 				}
-
 			}
+		end_task1:;
 
-			// ---- Графики ----
 			if (isTest) {
 				LineItem^ curveExact = panel->AddCurve("Точное u(x)", exactList, Color::Red, SymbolType::None);
 				curveExact->Line->Width = 2.0f;
@@ -852,7 +852,6 @@ namespace Graph {
 			zedGraphControl1->AxisChange();
 			zedGraphControl1->Invalidate();
 
-			// ---- Статистика ----
 			System::Text::StringBuilder^ sb = gcnew System::Text::StringBuilder();
 			sb->AppendLine(String::Format("n = {0}", n));
 			sb->AppendLine(String::Format("X_end - x_n = {0:E4}", Xend - x_last));
